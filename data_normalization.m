@@ -6,10 +6,12 @@ for index=1 : 1 : 8
     if index==1
         vector_muscle1=[data_matrix(:,2)];
         vector_muscle2=[data_matrix(:,3)];
+       
     end
     if index>1
         vector_muscle1=[vector_muscle1;data_matrix(:,2)];
         vector_muscle2=[vector_muscle2;data_matrix(:,3)];
+       
     end
 end 
 max_value1=max(vector_muscle1);
@@ -22,5 +24,6 @@ cell_norm_muscle2=mat2cell(norm_muscle2, [length(cell2mat(data(1,1))) length(cel
 
 output1=cell_norm_muscle1;
 output2=cell_norm_muscle2;
+
 end
 
