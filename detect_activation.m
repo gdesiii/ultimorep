@@ -1,7 +1,6 @@
-function [outputArg1,outputArg2] = detect_activation(inputArg1,inputArg2)
-%DETECT_ACTIVATION Summary of this function goes here
-%   Detailed explanation goes here
-outputArg1 = inputArg1;
-outputArg2 = inputArg2;
+function [peak_activations, time_activations] = detect_activation(data,time,multiplier)
+%Individuazione della soglia 
+thr=mean(data)+std(data)*multiplier;
+[peak_activations,time_activations]=findpeaks(data,time,'MinPeakDistance',5,'MinPeakHeight',thr);
 end
 
