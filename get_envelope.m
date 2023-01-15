@@ -5,7 +5,7 @@ function envelops = get_envelope(data, fs, nfft)
 %filtro passa basso
 
 %ho 3 soggetti
-%ognisoggetto ha 8 casi
+%ogni soggetto ha 8 casi
 %ogni caso ha 2 muscoli
 
 % data è il cell array
@@ -74,7 +74,7 @@ for index_caso = 1: num_casi
     %PLOT confronto tra segnale originale e segnale filtrato
     
     subplot (2,1,1)
-    sgtitle(strcat ('plot inviluppo soggetto ', index_soggetto, ' caso ' ,index_caso ) );
+    sgtitle(strcat ('plot inviluppo soggetto ', num2str(index_soggetto), ' caso ', num2str(index_caso) ) );
     plot(time, muscles(:,1),"Color","k")
     hold on
     plot(time, single_envelop(:,1),"Color", "r")
