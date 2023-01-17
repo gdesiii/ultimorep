@@ -2,8 +2,6 @@ function meanpsd (data, overlap, window, nfft, fs)
 
 [num_casi, num_soggetti]= size(data);
 
-% mpsd = cell(num_casi, num_soggetti);
-
 %vettore frequenza necessario per il plot dello spettro medio
 f=linspace(0, fs/2, floor(nfft/2)+1);
 
@@ -22,7 +20,7 @@ for index_caso = 1 : num_casi
     
     signal = cell2mat(data(index_caso, index_soggetto));
     
-    muscles = [signal(:,2), signal(:,3)];
+    muscles = [signal(:,1), signal(:,2)];
     
    %calcolo spettro medio per ogni muscolo 
    [psd_m1, ~]=pwelch(muscles(:,1), window, overlap, nfft, fs);
@@ -37,16 +35,13 @@ end
     mean_psd {index_soggetto, 1} = mean(psd_matrix_m1,2);
     mean_psd {index_soggetto, 2} = mean(psd_matrix_m2,2);
     
+    
+    subplot(1,3,index_soggetto)
+    plot(f,cell2mat(mean_psd(index_soggetto,:)))
+    ylim  ([0 0.002])
+    xlim ([0 200])
+    
+    
 end
-    mpsd = mean_psd;
-    
-    %plot
-    
-    for index = 1 : num_soggetti
-    subplot(1,3,index)
-    sgtitle("Spettro di potenza medio")
-    plot(f,cell2mat(mpsd(index,1)))
-    hold on
-    plot(f,cell2mat(mpsd(index,2)))
-    end
+   
 end

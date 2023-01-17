@@ -39,7 +39,7 @@ for index_caso = 1: num_casi
     
     %provo a considerare il secondo picco
     [~, xpeak]= findpeaks (abs(yF(1:floor(nfft/2)+1)));
-    wn= [xpeak(2) - floor(xpeak(2)/2) , 100];
+    wn= [xpeak(2) - floor(xpeak(2)/2) , 200];
     %mi servono le frequenze normalizzate per usare fir1
     wn = wn / (fs/2);
     
@@ -60,7 +60,7 @@ for index_caso = 1: num_casi
     figure 
     plot(f,abs(yF1(1:floor(nfft/2)+1)))
     %frequenza limite normalizzata
-    wn = 100 / (fs/2);
+    wn = 4 / (fs/2);
 
     %mi aspetto solo coeff. b
     order=200;
