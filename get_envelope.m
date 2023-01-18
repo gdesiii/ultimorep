@@ -1,4 +1,4 @@
-function envelops = get_envelope(data, fs, nfft)
+function [envelops, time]= get_envelope(data, fs, nfft)
 
 %filtro passa banda
 %rettifico
@@ -12,6 +12,9 @@ function envelops = get_envelope(data, fs, nfft)
 
 [num_casi, num_soggetti]= size (data);
 
+%prealloco la matrice che conterrà i vettori temporali
+time = cell(num_casi, num_soggetti);
+
 % prealloco il cell arrray envelops che conterrà per ogni soggetto
 % l'inviluppo di ogni segnale
 envelops = cell (num_casi, num_soggetti);
@@ -21,12 +24,13 @@ for index_caso = 1: num_casi
     
     signal = cell2mat(data(index_caso, index_soggetto));
     
+    
     %signal(:,1) = asse tempo
     %signal(:,2) = muscolo 1 
     %signal(:,3) = muscolo 2
     
     %separo l'asse temporale dai dati dei due muscoli
-    time = signal(:,1);
+    time{index_caso, index_soggetto}= signal(:,1);
     muscles = [signal(:,2) , signal(:,3)];
     
  %filtro passa banda
@@ -75,14 +79,14 @@ for index_caso = 1: num_casi
     
     subplot (2,1,1)
     sgtitle(strcat ('plot inviluppo soggetto ', num2str(index_soggetto), ' caso ', num2str(index_caso) ) );
-    plot(time, muscles(:,1),"Color","k")
+    plot(cell2mat (time (index_caso, index_soggetto)), muscles(:,1),"Color","k")
     hold on
-    plot(time, single_envelop(:,1),"Color", "r")
+    plot( cell2mat(time (index_caso, index_soggetto)), single_envelop(:,1),"Color", "r")
     
     subplot (2,1,2)
-    plot(time, muscles(:,2),"Color","k")
+    plot(cell2mat(time (index_caso, index_soggetto)), muscles(:,2),"Color","k")
     hold on
-    plot(time, single_envelop(:,2),"Color", "r")
+    plot(cell2mat(time(index_caso, index_soggetto)), single_envelop(:,2),"Color", "r")
     
     %riempio il cell array
     envelops {index_caso,index_soggetto} = single_envelop;

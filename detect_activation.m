@@ -16,11 +16,12 @@ for index_caso = 1: num_casi
     %Individuazione della soglia 
     
     muscles=cell2mat (data (index_caso, index_soggetto) );
+    tempo=cell2mat (time(index_caso, index_soggetto));
     
     thr1=mean(muscles(:,1))+std(muscles(:,1))*multiplier;
     thr2=mean(muscles(:,2))+std(muscles(:,2))*multiplier;
     
-    [peaks_m1,time_m1]=findpeaks( muscles(:,1),cell2mat (time(index_caso, index_soggetto)),'MinPeakDistance',5,'MinPeakHeight',thr1);
+    [peaks_m1,time_m1]=findpeaks( muscles(:,1),tempo,'MinPeakDistance',5,'MinPeakHeight',thr1);
     [peaks_m2,time_m2]=findpeaks( muscles(:,1),cell2mat (time(index_caso, index_soggetto)),'MinPeakDistance',5,'MinPeakHeight',thr2);
     
     
