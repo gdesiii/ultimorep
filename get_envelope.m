@@ -43,13 +43,13 @@ for index_caso = 1: num_casi
     
     %provo a considerare il secondo picco
     [~, xpeak]= findpeaks (abs(yF(1:floor(nfft/2)+1)));
-    wn= [xpeak(2) - floor(xpeak(2)/2) , 200];
+    wn= [20 , 500];
     %mi servono le frequenze normalizzate per usare fir1
     wn = wn / (fs/2);
     
     %mi aspetto solo coeff. b
-    order=200;
-    [b,a] = fir1(order,wn);
+    order=4;
+    [b,a] = butter(order,wn,'bandpass');
 
     sig_filtered = filter(b, a, muscles);
     
@@ -67,8 +67,8 @@ for index_caso = 1: num_casi
     wn = 4 / (fs/2);
 
     %mi aspetto solo coeff. b
-    order=200;
-    [b,a] = fir1(order,wn);
+    order=3000;
+    [b,a] = fir1(order,wn,'low');
 
     sig_low = filter(b, a, sig_rec);
     

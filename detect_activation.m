@@ -21,8 +21,8 @@ for index_caso = 1: num_casi
     thr1=mean(muscles(:,1))+std(muscles(:,1))*multiplier;
     thr2=mean(muscles(:,2))+std(muscles(:,2))*multiplier;
     
-    [peaks_m1,time_m1]=findpeaks( muscles(:,1),tempo,'MinPeakDistance',5,'MinPeakHeight',thr1);
-    [peaks_m2,time_m2]=findpeaks( muscles(:,1),cell2mat (time(index_caso, index_soggetto)),'MinPeakDistance',5,'MinPeakHeight',thr2);
+    [peaks_m1,time_m1]=findpeaks( muscles(:,1),'MinPeakHeight',thr1,'MinPeakdistance', 10000);
+    [peaks_m2,time_m2]=findpeaks( muscles(:,1),'MinPeakHeight',thr2,'MinPeakdistance', 10000);
     
     
     peaks_activations{index_caso, index_soggetto + index_soggetto -1}= peaks_m1;
