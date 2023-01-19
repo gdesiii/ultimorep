@@ -1,4 +1,4 @@
-function [envelops, time]= get_envelope(data, fs, nfft)
+function [envelops, time]= get_envelope(data, fs)
 
 %filtro passa banda
 %rettifico
@@ -24,7 +24,6 @@ for index_caso = 1: num_casi
     
     signal = cell2mat(data(index_caso, index_soggetto));
     
-    
     %signal(:,1) = asse tempo
     %signal(:,2) = muscolo 1 
     %signal(:,3) = muscolo 2
@@ -34,62 +33,52 @@ for index_caso = 1: num_casi
     muscles = [signal(:,2) , signal(:,3)];
     
  %filtro passa banda
-    yF= fft (muscles, nfft);
-    f=linspace(0, fs/2, floor(nfft/2)+1);
-    
-%     %PLOT DEL MODULO DELLA TRASFORMATA
-%     figure 
-%     plot(f,abs(yF1(1:floor(nfft/2)+1)))
-    
-    %provo a considerare il secondo picco
-    [~, xpeak]= findpeaks (abs(yF(1:floor(nfft/2)+1)));
     wn= [20 , 500];
-    %mi servono le frequenze normalizzate per usare fir1
+    %mi servono le frequenze normalizzate
     wn = wn / (fs/2);
     
     %mi aspetto solo coeff. b
     order=4;
-    [b,a] = butter(order,wn,'bandpass');
+    [b,a] = butter(order,wn,"bandpass");
 
-    sig_filtered = filter(b, a, muscles);
+    sig_filtered_m1 = filter(b, a, muscles(:,1));
+    sig_filtered_m2 = filter(b, a, muscles(:,2));
     
  %rettifica
-    sig_rec= abs (sig_filtered);
+    sig_rec_m1= abs (sig_filtered_m1);
+    sig_rec_m2= abs (sig_filtered_m2);
     
  %filtro passa basso
-
-    yF1= fft (sig_rec, nfft);
-    f=linspace(0, fs/2, floor(nfft/2)+1);
-    %PLOT DEL MODULO DELLA TRASFORMATA
-    figure 
-    plot(f,abs(yF1(1:floor(nfft/2)+1)))
     %frequenza limite normalizzata
-    wn = 4 / (fs/2);
+    wn = 4 / fs/2;
 
     %mi aspetto solo coeff. b
     order=3000;
     [b,a] = fir1(order,wn,'low');
 
-    sig_low = filter(b, a, sig_rec);
+    sig_low_m1 = filter(b, a, sig_rec_m1);
+    sig_low_m2 = filter(b, a, sig_rec_m2);
     
     %inviluppo come valore assoluto del segnale filtrato
-    single_envelop = abs (sig_low);
+    single_envelope_m1 = abs (sig_low_m1);
+    single_envelope_m2 = abs (sig_low_m2);
     
+    single_envelope = [single_envelope_m1, single_envelope_m2];
     %PLOT confronto tra segnale originale e segnale filtrato
     
-    subplot (2,1,1)
-    sgtitle(strcat ('plot inviluppo soggetto ', num2str(index_soggetto), ' caso ', num2str(index_caso) ) );
-    plot(cell2mat (time (index_caso, index_soggetto)), muscles(:,1),"Color","k")
-    hold on
-    plot( cell2mat(time (index_caso, index_soggetto)), single_envelop(:,1),"Color", "r")
-    
-    subplot (2,1,2)
-    plot(cell2mat(time (index_caso, index_soggetto)), muscles(:,2),"Color","k")
-    hold on
-    plot(cell2mat(time(index_caso, index_soggetto)), single_envelop(:,2),"Color", "r")
-    
+%     subplot (2,1,1)
+%     sgtitle(strcat ('plot inviluppo soggetto ', num2str(index_soggetto), ' caso ', num2str(index_caso) ) );
+%     plot(cell2mat (time (index_caso, index_soggetto)), muscles(:,1),"Color","k")
+%     hold on
+%     plot( cell2mat(time (index_caso, index_soggetto)), single_envelop(:,1),"Color", "r")
+%     
+%     subplot (2,1,2)
+%     plot(cell2mat(time (index_caso, index_soggetto)), muscles(:,2),"Color","k")
+%     hold on
+%     plot(cell2mat(time(index_caso, index_soggetto)), single_envelop(:,2),"Color", "r")
+%     
     %riempio il cell array
-    envelops {index_caso,index_soggetto} = single_envelop;
+    envelops {index_caso,index_soggetto} = single_envelope;
 end
 end
 

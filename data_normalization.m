@@ -1,4 +1,4 @@
-function output = data_normalization(data, time)
+function output = data_normalization(data)
 
 [num_casi, num_soggetti]= size (data);
 
@@ -24,14 +24,14 @@ for index_soggetti=1:num_soggetti
         output {index, index_soggetti}=norm(index_m(index): index_m(index+1)-1, :);
     end
        
-     thr1=mean(norm(:,1))+std(muscles(:,1))*0.5
-    
-    figure
-    plot(time, norm(1:135187,1))
-    hold on
-    yline(thr1, 'linewidth',5)
-    ylim ([0 0.5])
-    xlim ([0 70])
+%      thr1=mean(norm(:,1))+std(muscles(:,1))*0.5
+%     
+%     figure
+%     plot(time, norm(1:135187,1))
+%     hold on
+%     yline(thr1, 'linewidth',5)
+%     ylim ([0 0.5])
+%     xlim ([0 70])
 end
 
 

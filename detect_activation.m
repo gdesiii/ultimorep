@@ -22,7 +22,7 @@ for index_caso = 1: num_casi
     thr2=mean(muscles(:,2))+std(muscles(:,2))*multiplier;
     
     [peaks_m1,time_m1]=findpeaks( muscles(:,1),'MinPeakHeight',thr1,'MinPeakdistance', 10000);
-    [peaks_m2,time_m2]=findpeaks( muscles(:,1),'MinPeakHeight',thr2,'MinPeakdistance', 10000);
+    [peaks_m2,time_m2]=findpeaks( muscles(:,2),'MinPeakHeight',thr2,'MinPeakdistance', 10000);
     
     
     peaks_activations{index_caso, index_soggetto + index_soggetto -1}= peaks_m1;
