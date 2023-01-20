@@ -1,4 +1,4 @@
-function output = data_normalization(data)
+ function output = data_normalization(data)
 
 [num_casi, num_soggetti]= size (data);
 
