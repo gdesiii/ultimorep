@@ -2,8 +2,6 @@ function p_value = my_permutation_test(a, b, N, title)
 %considero solo le righe
 [row, ~]=size(a);
 
-figure
-title(title)
 for index_r = 1:row
     %Creazione della variabile osservata
     Tobs = abs(mean(a(index_r,:)) - mean(b(index_r,:)));
@@ -28,7 +26,6 @@ for index_r = 1:row
     histogram(Trand,100)
     
     sgtitle(title)
-%     title(strcat('muscolo ', num2str(index_r)))
     xlabel('Normalized muscle amplitude [a.u]')
     ylabel('Count')
 end     
